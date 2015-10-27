@@ -1,8 +1,6 @@
 # Ecco
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ecco`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+MySQL replication binlog parser using [mysql-binlog-connector-java].
 
 ## Installation
 
@@ -41,3 +39,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## License
 
 The gem is available as open source under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+[mysql-binlog-connector-java]: https://github.com/shyiko/mysql-binlog-connector-java
