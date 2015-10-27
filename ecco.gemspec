@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Twingly AB"]
   spec.email         = ["support@twingly.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{MySQL replication binlog parser.}
+  spec.description   = %q{MySQL replication binlog parser using mysql-binlog-connector-java.}
+  spec.homepage      = "https://github.com/twingly/ecco"
   spec.license       = "Apache-2.0"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
