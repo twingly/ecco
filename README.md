@@ -1,5 +1,7 @@
 # Ecco
 
+[![Build Status](https://travis-ci.org/twingly/ecco.svg?branch=master)](https://travis-ci.org/twingly/ecco)
+
 MySQL replication binlog parser using [mysql-binlog-connector-java].
 
 ## Installation
