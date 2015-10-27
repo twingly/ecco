@@ -1,2 +1,13 @@
 language: ruby
 before_install: gem install bundler -v 1.10.6
+notifications:
+  email: false
+  hipchat:
+    on_success: never
+    on_failure: change
+    template:
+    - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}
+      (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
+    format: html
+    rooms:
+      secure: J7yYVGr6NQ0rOA6WdOVxiB4XxPJJDcQG7R0fgAXxtAzQNun+QHLBH9Yu7NN7kaJrVU69oIMrAw2e7EGSh9mnQ3fmGyA/z9Xu5+3GYjGuN3QDLGA8kbnDggIeo8vZrTZYL9aITVHMUH/6oKwAtg4Q5Tx4ftguj4zvMMWiZTFHuv05V0FgyoQkSggKLE3w8ZndEjZfaBbtgUeN/eGeAl2oeP8w53eM4ebh2+VNYNVGr+5zr1VGkkXz1SoRT3YEJtSjH0DvinZDrsU3VZZY9hIcUKu3dzhPuwZFMIDGshDxVqf/0XADOFUqgYFeHmg64O+ikIye4MiuBKw/miqSvx6lZSdjlsYyHruYFCbjcZue/WIKAw5nWZNQ+YZmzxMWZV4czImO8q2ljMOXUluVgW78mZMYsqzsoE5tX6PVO4I7aVL4L9mnb01nPDAPgJAXCGfudOkHfUi6jaVTkvLqSJvifbCzhsRvaPCA2VAQGUTssv9pm2YkCP5rOOeasU+XgJtLJif8Uv1g/zNjNajNU19A1PLCSNgdvX381Dgd3NS/DjMtNtgTXxGjSpHwQM54aL/lp6a2XhCpSpBZBcBz01KQJGsgLUgDDQJSzO1e8OdiP6YQHIGEA0OM4Wfoq2I3TLWMSlGSzJBvUBHJwstPMjTbH+1HM2AOY80orVHQWzttZlc=
