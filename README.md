@@ -51,8 +51,8 @@ client.on_save_position do |filename, position|
 end
 
  # Optionally set a starting position
-client.binlog_filename = "mysql-bin.000009"
-client.binlog_position = 276753
+client.set_binlog_filename("mysql-bin.000009")
+client.set_binlog_position(276753)
 
 client.start
 ```
