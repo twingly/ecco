@@ -3,8 +3,10 @@ module Ecco
     include com.github.shyiko.mysql.binlog.BinaryLogClient::EventListener
     java_import com.github.shyiko.mysql.binlog.event.EventType
 
+    attr_accessor :callback
     def initialize(client)
-      @client = client
+      @client  = client
+      callback = Proc.new {}
     end
 
     def on_event(event)
