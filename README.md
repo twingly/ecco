@@ -50,7 +50,7 @@ client.on_save_position do |filename, position|
   puts "Save event: #{filename} #{position}"
 end
 
- # Optionally set a starting position
+# Optionally set a starting position
 client.set_binlog_filename("mysql-bin.000009")
 client.set_binlog_position(276753)
 
