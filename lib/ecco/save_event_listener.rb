@@ -1,4 +1,4 @@
-require "event_listener"
+require "ecco/event_listener"
 
 module Ecco
   class SaveEventListener < EventListener

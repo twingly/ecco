@@ -1,6 +1,6 @@
 require "ext/mysql-binlog-connector-java-#{Ecco::MYSQL_BINLOG_CONNECTOR_VERSION}.jar"
-require "row_event_listener"
-require "save_event_listener"
+require "ecco/row_event_listener"
+require "ecco/save_event_listener"
 
 module Ecco
   class Client
