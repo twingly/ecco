@@ -22,7 +22,40 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require "ecco"
+
+hostname = "localhost" # Optional
+port     = 3306        # Optional
+username = "username"
+password = "password"
+
+client = Ecco::Client.new(hostname: hostname, port: port, username: username, password: password)
+
+client.on_row_event do |row_event|
+  type     = row_event.type
+  database = row_event.database
+  table    = row_event.table
+  rows     = row_event.rows
+
+  next unless database == "FooDatabase"
+  next unless table == "FooTable"
+
+  second_column = rows.first[1]
+
+  puts "Row event: #{database} #{table} #{type} #{second_column}"
+end
+
+client.on_save_position do |filename, position|
+  puts "Save event: #{filename} #{position}"
+end
+
+ # Optionally set a starting position
+client.binlog_filename = "mysql-bin.000009"
+client.binlog_position = 276753
+
+client.start
+```
 
 ## Development
 
