@@ -11,9 +11,7 @@ module Ecco
     ]
 
     def on_event(event)
-      super(event)
-
-      case @type
+      case event.get_header.get_event_type
       when *SAVE_EVENTS
         filename = @client.get_binlog_filename
         position = @client.get_binlog_position

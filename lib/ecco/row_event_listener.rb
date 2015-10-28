@@ -11,16 +11,17 @@ module Ecco
     ]
 
     def on_event(event)
-      super(event)
+      data = event.get_data
+      type = event.get_header.get_event_type
 
-      case @type
+      case type
       when EventType::TABLE_MAP
         @table_map_event = event
       when *ROW_EVENTS
         row_event          = RowEvent.new
-        row_event.type     = @type.to_s
-        row_event.table_id = @data.get_table_id
-        row_event.rows     = @data.rows
+        row_event.type     = type.to_s
+        row_event.table_id = data.get_table_id
+        row_event.rows     = data.rows
 
         if @table_map_event
           event_data = @table_map_event.get_data
