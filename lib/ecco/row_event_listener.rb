@@ -1,9 +1,8 @@
 require "ecco/event_listener"
+require "ecco/row_event"
 
 module Ecco
   class RowEventListener < EventListener
-    RowEvent = Struct.new(:type, :table_id, :database, :table, :rows)
-
     ROW_EVENTS = [
       EventType::WRITE_ROWS,
       EventType::UPDATE_ROWS,
