@@ -11,14 +11,13 @@ module Ecco
 
     java_import com.github.shyiko.mysql.binlog.BinaryLogClient
 
-    attr_reader :on_row_event_callback, :on_save_position_callback
-
     def initialize(hostname: "localhost", port: 3306, username:, password:)
       @client = BinaryLogClient.new(hostname, port, username, password)
 
       @save_event_listener = SaveEventListener.new(self)
-      @row_event_listener  = RowEventListener.new(self)
       @client.register_event_listener(@save_event_listener)
+
+      @row_event_listener  = RowEventListener.new(self)
       @client.register_event_listener(@row_event_listener)
     end
 
