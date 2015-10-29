@@ -29,7 +29,7 @@ module Ecco
           row_event.table    = event_data.get_table
         end
 
-        callback.call(row_event)
+        @callback.call(row_event)
       end
     end
   end
