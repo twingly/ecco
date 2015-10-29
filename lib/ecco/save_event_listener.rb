@@ -10,9 +10,15 @@ module Ecco
       EventType::DELETE_ROWS,
     ]
 
+    def accepted_events
+      SAVE_EVENTS
+    end
+
     def on_event(event)
-      case event.get_header.get_event_type
-      when *SAVE_EVENTS
+      type = event.get_header.get_event_type
+
+      case type
+      when *accepted_events
         filename = @client.get_binlog_filename
         position = @client.get_binlog_position
 

@@ -9,15 +9,23 @@ module Ecco
       EventType::DELETE_ROWS,
     ]
 
+    def table_event
+      EventType::TABLE_MAP
+    end
+
+    def accepted_events
+      ROW_EVENTS
+    end
+
     def on_event(event)
       data = event.get_data
       type = event.get_header.get_event_type
 
       case type
-      when EventType::TABLE_MAP
+      when table_event
         @table_map_event = event
-      when *ROW_EVENTS
-        row_event          = RowEvent.new
+      when *accepted_events
+        row_event          = Ecco::RowEvent.new
         row_event.type     = type.to_s
         row_event.table_id = data.get_table_id
         row_event.rows     = data.rows
