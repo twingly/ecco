@@ -69,7 +69,7 @@ Note: You need Maven to download
 
 Run the tests
 
-    bundle exec rake spec
+    jruby --dev -G -S rake
 
 For an interactive prompt
 
