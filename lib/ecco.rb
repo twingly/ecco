@@ -1,2 +1,2 @@
-require "ecco/client"
 require "ecco/version"
+require "ecco/client"
