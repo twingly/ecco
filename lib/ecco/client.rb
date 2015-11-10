@@ -32,5 +32,9 @@ module Ecco
     def start
       @client.connect
     end
+
+    def stop
+      @client.disconnect
+    end
   end
 end
