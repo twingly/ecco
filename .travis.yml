@@ -1,5 +1,22 @@
+sudo: true
+
 language: ruby
-before_install: gem install bundler -v 1.10.6
+
+services:
+  - mysql
+
+before_install:
+  - printf "[mysqld]\nlog-bin=mysql-bin\nserver-id=1\nbinlog-format=ROW\n" | sudo tee /etc/mysql/conf.d/binlog.cnf
+  - sudo service mysql restart
+  - mysql -u root -e 'create database ecco_test;'
+  - gem install bundler -v 1.10.6
+
+env:
+  global:
+    - DATABASE_USER=root
+    - DATABASE_PASS=""
+    - DATABASE_URL=jdbc:mysql://localhost:3306/ecco_test
+
 notifications:
   email: false
   hipchat:
