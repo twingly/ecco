@@ -79,6 +79,17 @@ To install this gem onto your local machine
 
     bundle exec rake install
 
+### Integration tests
+
+The tests needs a MySQL server with replication enabled.
+Ecco includes a Vagrant machine that can be used for this.
+
+Just start it before running the tests
+
+    vagrant up
+
+*Note: Stop any local mysql servers first as it forwards mysql to localhost:3306.*
+
 ## Release
 
 To release a new version, update the version number in `version.rb`, and then run
