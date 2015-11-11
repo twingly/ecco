@@ -81,6 +81,10 @@ To install this gem onto your local machine
 
 ### Integration tests
 
+The integration tests don't run by default. To run all the tests, including integration, use
+
+    jruby --dev -G -S rake spec:all
+
 The tests needs a MySQL server with replication enabled.
 Ecco includes a Vagrant machine that can be used for this.
 
