@@ -1,5 +1,9 @@
 require "sequel"
 
+ENV["DATABASE_USER"] ||= "root"
+ENV["DATABASE_PASS"] ||= ""
+ENV["DATABASE_URL"]  ||= "jdbc:mysql://localhost:3306/ecco_test"
+
 class DatabaseHelper
   USER = ENV.fetch("DATABASE_USER")
   PASS = ENV.fetch("DATABASE_PASS")
