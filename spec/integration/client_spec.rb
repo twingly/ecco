@@ -21,6 +21,35 @@ describe Ecco::Client do
     DatabaseHelper.drop_table(table_name)
   end
 
+  describe "#set_binlog_filename, #set_binlog_position" do
+    context "when position and filename is set" do
+      let(:old_position) do
+        another_client = described_class.new(
+          username: DatabaseHelper::USER,
+          password: DatabaseHelper::PASS,
+        )
+
+        TestHelper.get_save_position_events_from_client(another_client) do
+          DatabaseHelper.insert(table_name, mysql_row)
+        end
+      end
+
+      before do
+        subject.set_binlog_position(old_position.fetch(:position))
+        subject.set_binlog_filename(old_position.fetch(:filename))
+
+        DatabaseHelper.flush_logs
+        DatabaseHelper.insert(table_name, mysql_row)
+      end
+
+      it "should start at that position" do
+        subject_position = TestHelper.get_save_position_events_from_client(subject)
+
+        expect(subject_position).to eq(old_position)
+      end
+    end
+  end
+
   describe "#on_row_event" do
     context "when a row is inserted" do
       let(:row_event) do

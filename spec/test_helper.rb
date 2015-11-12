@@ -32,7 +32,7 @@ class TestHelper
 
     thread = start_client_in_thread(ecco_client)
 
-    yield
+    yield if block_given?
 
     thread.join
 
