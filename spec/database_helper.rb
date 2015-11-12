@@ -37,4 +37,8 @@ class DatabaseHelper
   def self.delete(table_name, id:)
     DB[table_name].where(id: id).delete
   end
+
+  def self.flush_logs
+    DB.run("FLUSH BINARY LOGS")
+  end
 end

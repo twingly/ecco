@@ -21,65 +21,140 @@ describe Ecco::Client do
     DatabaseHelper.drop_table(table_name)
   end
 
-  context "when a row is inserted" do
-    let(:row_event) do
-      TestHelper.get_first_row_event_from_client(subject) do
-        DatabaseHelper.insert(table_name, mysql_row)
+  describe "#on_row_event" do
+    context "when a row is inserted" do
+      let(:row_event) do
+        TestHelper.get_row_events_from_client(subject) do
+          DatabaseHelper.insert(table_name, mysql_row)
+        end
+      end
+
+      it "should receive a row event with correct type" do
+        expect(row_event.type).to eq("WRITE_ROWS")
+      end
+
+      it "should receive a row event with the inserted row" do
+        value_from_event = row_event.rows.first[1]
+
+        expect(value_from_event).to eq(column_value)
       end
     end
 
-    it "should receive a row event with correct type" do
-      expect(row_event.type).to eq("WRITE_ROWS")
+    context "when a row is updated" do
+      let(:update_value)   { "another value" }
+      let(:update_columns) { { column1: update_value } }
+      let(:row_event) do
+        id = DatabaseHelper.insert(table_name, mysql_row)
+
+        TestHelper.get_row_events_from_client(subject) do
+          DatabaseHelper.update(table_name, id: id, columns: update_columns )
+        end
+      end
+
+      it "should receive a row event with correct type" do
+        expect(row_event.type).to eq("UPDATE_ROWS")
+      end
+
+      it "should receive a row event with the old and updated row" do
+        value_before_update = row_event.rows.first.key[1]
+        value_after_update  = row_event.rows.first.value[1]
+
+        expect(value_before_update).to eq(column_value)
+        expect(value_after_update).to eq(update_value)
+      end
     end
 
-    it "should receive a row event with the inserted row" do
-      value_from_event = row_event.rows.first[1]
+    context "when a row is deleted" do
+      let(:row_event) do
+        id = DatabaseHelper.insert(table_name, mysql_row)
 
-      expect(value_from_event).to eq(column_value)
+        TestHelper.get_row_events_from_client(subject) do
+          DatabaseHelper.delete(table_name, id: id)
+        end
+      end
+
+      it "should receive a row event with correct type" do
+        expect(row_event.type).to eq("DELETE_ROWS")
+      end
+
+      it "should receive a row event with the deleted row" do
+        value_from_event = row_event.rows.first[1]
+
+        expect(value_from_event).to eq(column_value)
+      end
+    end
+
+    context "when there are multiple tables" do
+      before do
+        DatabaseHelper.create_table(another_table, columns: 2)
+      end
+
+      let(:another_table) { :another_table_name }
+      let(:row_events) do
+        TestHelper.get_row_events_from_client(subject, count: 2) do
+          DatabaseHelper.insert(table_name, mysql_row)
+          DatabaseHelper.insert(another_table, mysql_row)
+        end
+      end
+
+      it "should receive events for all tables" do
+        expect(row_events.first.table).to eq(table_name.to_s)
+        expect(row_events.last.table).to eq(another_table.to_s)
+      end
+    end
+
+    context "when the log files are rotated" do
+      let(:event_count) { 10 }
+      let(:row_events) do
+        TestHelper.get_row_events_from_client(subject, count: event_count) do
+          1.upto(event_count) do |i|
+            DatabaseHelper.insert(table_name, mysql_row)
+            DatabaseHelper.flush_logs if i == 1
+          end
+        end
+      end
+
+      it "should still receive events" do
+        expect(row_events.count).to eq(event_count)
+      end
     end
   end
 
-  context "when a row is updated" do
-    let(:update_value)   { "another value" }
-    let(:update_columns) { { column1: update_value } }
-    let(:row_event) do
-      id = DatabaseHelper.insert(table_name, mysql_row)
+  describe "#on_save_position" do
+    context "when there are multiple events after each other" do
+      let(:event_count) { 10 }
+      let(:save_events) do
+        TestHelper.get_save_position_events_from_client(subject, count: event_count) do
+          1.upto(event_count) do |i|
+            DatabaseHelper.insert(table_name, mysql_row)
+          end
+        end
+      end
 
-      TestHelper.get_first_row_event_from_client(subject) do
-        DatabaseHelper.update(table_name, id: id, columns: update_columns )
+      it "should receive an incrementing file position" do
+        positions = save_events.map { |event| event.fetch(:position) }
+
+        expect(positions).to eq(positions.sort)
       end
     end
 
-    it "should receive a row event with correct type" do
-      expect(row_event.type).to eq("UPDATE_ROWS")
-    end
-
-    it "should receive a row event with the old and updated row" do
-      value_before_update = row_event.rows.first.key[1]
-      value_after_update  = row_event.rows.first.value[1]
-
-      expect(value_before_update).to eq(column_value)
-      expect(value_after_update).to eq(update_value)
-    end
-  end
-
-  context "when a row is deleted" do
-    let(:row_event) do
-      id = DatabaseHelper.insert(table_name, mysql_row)
-
-      TestHelper.get_first_row_event_from_client(subject) do
-        DatabaseHelper.delete(table_name, id: id)
+    context "when the log files are rotated" do
+      let(:event_count) { 10 }
+      let(:save_events) do
+        TestHelper.get_save_position_events_from_client(subject, count: event_count) do
+          1.upto(event_count) do |i|
+            DatabaseHelper.insert(table_name, mysql_row)
+            DatabaseHelper.flush_logs if i == 1
+          end
+        end
       end
-    end
 
-    it "should receive a row event with correct type" do
-      expect(row_event.type).to eq("DELETE_ROWS")
-    end
+      it "should received a new log file" do
+        logfile1 = save_events.first.fetch(:filename)
+        logfile2 = save_events.last.fetch(:filename)
 
-    it "should receive a row event with the deleted row" do
-      value_from_event = row_event.rows.first[1]
-
-      expect(value_from_event).to eq(column_value)
+        expect(logfile1).not_to eq(logfile2)
+      end
     end
   end
 end
