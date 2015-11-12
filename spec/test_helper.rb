@@ -1,4 +1,8 @@
+require "timeout"
+
 class TestHelper
+  CLIENT_TIMEOUT = 10 # seconds
+
   def self.get_row_events_from_client(ecco_client, count: 1, &block)
     received_row_events = []
 
@@ -29,15 +33,19 @@ class TestHelper
   end
 
   def self.start_client_in_thread_and_run_block(ecco_client)
-    thread = Thread.new do |t|
-      ecco_client.start
+    Timeout.timeout(CLIENT_TIMEOUT) do
+      thread = Thread.new do |t|
+        ecco_client.start
+      end
+
+      sleep 1
+
+      yield if block_given?
+
+      thread.join
     end
-
-    sleep 1
-
-    yield if block_given?
-
-    thread.join
+  rescue Timeout::Error => exception
+    raise exception, "No binlog events received"
   end
 
   private_class_method :start_client_in_thread_and_run_block

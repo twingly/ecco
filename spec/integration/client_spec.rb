@@ -1,5 +1,4 @@
 require "spec_helper"
-require "timeout"
 
 describe Ecco::Client do
   subject do
