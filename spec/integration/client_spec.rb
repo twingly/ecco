@@ -1,5 +1,8 @@
 require "spec_helper"
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 describe Ecco::Client do
   subject do
     described_class.new(
@@ -11,6 +14,12 @@ describe Ecco::Client do
   let(:table_name)   { :ecco_test_table }
   let(:column_value) { "a value" }
   let(:mysql_row)    { { column1: column_value } }
+
+  before(:all) do
+    root_logger = Logger.get_logger("");
+    # The first handler is by default the console
+    root_logger.get_handlers.first.set_level(Level::WARNING)
+  end
 
   before do
     DatabaseHelper.create_table(table_name, columns: 1)
