@@ -194,4 +194,34 @@ describe Ecco::Client do
       end
     end
   end
+
+  describe "#start" do
+    context "when given a non-existent server" do
+      subject do
+        described_class.new(
+          hostname: "somewhere_over_the_rainbow",
+          username: DatabaseHelper::USER,
+          password: DatabaseHelper::PASS,
+        )
+      end
+
+      it "will raise an error" do
+        expect { subject.start }.to raise_error(java.io.IOException)
+      end
+    end
+
+    context "when given bad credentials" do
+      subject do
+        described_class.new(
+          username: DatabaseHelper::USER,
+          password: "this_is_not_the_password",
+        )
+      end
+
+      it "will raise an error" do
+        expect { subject.start }.to raise_error(java.io.IOException)
+      end
+    end
+  end
+
 end
