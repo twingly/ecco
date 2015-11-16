@@ -1,6 +1,7 @@
 require "ext/mysql-binlog-connector-java-#{Ecco::MYSQL_BINLOG_CONNECTOR_VERSION}.jar"
 require "ecco/row_event_listener"
 require "ecco/save_event_listener"
+require "ecco/error"
 
 module Ecco
   class Client
@@ -31,6 +32,8 @@ module Ecco
 
     def start
       @client.connect
+    rescue java.io.IOException => e
+      raise Ecco::Error::ConnectionError, e.get_message
     end
 
     def stop

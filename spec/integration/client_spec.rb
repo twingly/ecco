@@ -206,7 +206,7 @@ describe Ecco::Client do
       end
 
       it "will raise an error" do
-        expect { subject.start }.to raise_error(java.io.IOException)
+        expect { subject.start }.to raise_error(Ecco::Error::ConnectionError)
       end
     end
 
@@ -219,7 +219,7 @@ describe Ecco::Client do
       end
 
       it "will raise an error" do
-        expect { subject.start }.to raise_error(java.io.IOException)
+        expect { subject.start }.to raise_error(Ecco::Error::ConnectionError)
       end
     end
   end
