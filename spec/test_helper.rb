@@ -50,6 +50,6 @@ class TestHelper
       yield
     end
   rescue Timeout::Error => exception
-    raise exception, "No binlog events received"
+    raise exception, "No binlog events received within #{CLIENT_TIMEOUT} seconds"
   end
 end
