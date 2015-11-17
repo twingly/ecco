@@ -2,51 +2,54 @@ require "timeout"
 
 class TestHelper
   CLIENT_TIMEOUT = 10 # seconds
+  SLEEP_TIME     = 0.1
 
-  def self.get_row_events_from_client(ecco_client, count: 1, &block)
-    received_row_events = []
+  def self.wait_for_row_events(ecco_client, count: 1, &block)
+    with_timeout do
+      received_events = []
 
-    ecco_client.on_row_event do |row_event|
-      received_row_events << row_event
-      ecco_client.stop if received_row_events.count == count
-    end
-
-    start_client_in_thread_and_run_block(ecco_client, &block)
-
-    count == 1 ? received_row_events.first : received_row_events
-  end
-
-  def self.get_save_position_events_from_client(ecco_client, count: 1, &block)
-    received_save_position_events = []
-
-    ecco_client.on_save_position do |filename, position|
-      received_save_position_events << {
-        filename: filename,
-        position: position,
-      }
-      ecco_client.stop if received_save_position_events.count == count
-    end
-
-    start_client_in_thread_and_run_block(ecco_client, &block)
-
-    count == 1 ? received_save_position_events.first : received_save_position_events
-  end
-
-  def self.start_client_in_thread_and_run_block(ecco_client)
-    Timeout.timeout(CLIENT_TIMEOUT) do
-      thread = Thread.new do |t|
-        ecco_client.start
+      ecco_client.on_row_event do |row_event|
+        received_events << row_event
       end
 
-      sleep 1
+      ecco_client.start_in_thread
+      block.call if block_given?
 
-      yield if block_given?
+      sleep SLEEP_TIME while received_events.count < count
 
-      thread.join
+      count == 1 ? received_events.first : received_events
+    end
+  ensure
+    ecco_client.stop
+  end
+
+  def self.wait_for_save_position_events(ecco_client, count: 1, &block)
+    with_timeout do
+      received_events = []
+
+      ecco_client.on_save_position do |filename, position|
+        received_events << {
+          filename: filename,
+          position: position,
+        }
+      end
+
+      ecco_client.start_in_thread
+      block.call if block_given?
+
+      sleep SLEEP_TIME while received_events.count < count
+
+      count == 1 ? received_events.first : received_events
+    end
+  ensure
+    ecco_client.stop
+  end
+
+  def self.with_timeout
+    Timeout.timeout(CLIENT_TIMEOUT) do
+      yield
     end
   rescue Timeout::Error => exception
     raise exception, "No binlog events received"
   end
-
-  private_class_method :start_client_in_thread_and_run_block
 end

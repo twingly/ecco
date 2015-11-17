@@ -5,6 +5,8 @@ require "ecco/error"
 
 module Ecco
   class Client
+    DEFAULT_CONNECT_TIMEOUT = 3000 # ms
+
     extend Forwardable
     def_delegators :@client, :set_server_id, :get_server_id
     def_delegators :@client, :set_binlog_filename, :get_binlog_filename
@@ -34,6 +36,10 @@ module Ecco
       @client.connect
     rescue java.io.IOException => e
       raise Ecco::Error::ConnectionError, e.get_message
+    end
+
+    def start_in_thread(connect_timeout: DEFAULT_CONNECT_TIMEOUT)
+      @client.connect(connect_timeout)
     end
 
     def stop

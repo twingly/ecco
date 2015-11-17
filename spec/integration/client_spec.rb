@@ -37,7 +37,7 @@ describe Ecco::Client do
           password: DatabaseHelper::PASS,
         )
 
-        TestHelper.get_save_position_events_from_client(another_client) do
+        TestHelper.wait_for_save_position_events(another_client) do
           DatabaseHelper.insert(table_name, mysql_row)
         end
       end
@@ -51,7 +51,7 @@ describe Ecco::Client do
       end
 
       it "should start at that position" do
-        subject_position = TestHelper.get_save_position_events_from_client(subject)
+        subject_position = TestHelper.wait_for_save_position_events(subject)
 
         expect(subject_position).to eq(old_position)
       end
@@ -61,7 +61,7 @@ describe Ecco::Client do
   describe "#on_row_event" do
     context "when a row is inserted" do
       let(:row_event) do
-        TestHelper.get_row_events_from_client(subject) do
+        TestHelper.wait_for_row_events(subject) do
           DatabaseHelper.insert(table_name, mysql_row)
         end
       end
@@ -83,7 +83,7 @@ describe Ecco::Client do
       let(:row_event) do
         id = DatabaseHelper.insert(table_name, mysql_row)
 
-        TestHelper.get_row_events_from_client(subject) do
+        TestHelper.wait_for_row_events(subject) do
           DatabaseHelper.update(table_name, id: id, columns: update_columns )
         end
       end
@@ -105,7 +105,7 @@ describe Ecco::Client do
       let(:row_event) do
         id = DatabaseHelper.insert(table_name, mysql_row)
 
-        TestHelper.get_row_events_from_client(subject) do
+        TestHelper.wait_for_row_events(subject) do
           DatabaseHelper.delete(table_name, id: id)
         end
       end
@@ -128,7 +128,7 @@ describe Ecco::Client do
 
       let(:another_table) { :another_table_name }
       let(:row_events) do
-        TestHelper.get_row_events_from_client(subject, count: 2) do
+        TestHelper.wait_for_row_events(subject, count: 2) do
           DatabaseHelper.insert(table_name, mysql_row)
           DatabaseHelper.insert(another_table, mysql_row)
         end
@@ -143,7 +143,7 @@ describe Ecco::Client do
     context "when the log files are rotated" do
       let(:event_count) { 10 }
       let(:row_events) do
-        TestHelper.get_row_events_from_client(subject, count: event_count) do
+        TestHelper.wait_for_row_events(subject, count: event_count) do
           1.upto(event_count) do |i|
             DatabaseHelper.insert(table_name, mysql_row)
             DatabaseHelper.flush_logs if i == 1
@@ -161,7 +161,7 @@ describe Ecco::Client do
     context "when there are multiple events after each other" do
       let(:event_count) { 10 }
       let(:save_events) do
-        TestHelper.get_save_position_events_from_client(subject, count: event_count) do
+        TestHelper.wait_for_save_position_events(subject, count: event_count) do
           1.upto(event_count) do |i|
             DatabaseHelper.insert(table_name, mysql_row)
           end
@@ -178,7 +178,7 @@ describe Ecco::Client do
     context "when the log files are rotated" do
       let(:event_count) { 10 }
       let(:save_events) do
-        TestHelper.get_save_position_events_from_client(subject, count: event_count) do
+        TestHelper.wait_for_save_position_events(subject, count: event_count) do
           1.upto(event_count) do |i|
             DatabaseHelper.insert(table_name, mysql_row)
             DatabaseHelper.flush_logs if i == 1
