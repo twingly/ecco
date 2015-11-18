@@ -13,6 +13,7 @@ module Ecco
     def_delegators :@client, :set_binlog_position, :get_binlog_position
 
     java_import com.github.shyiko.mysql.binlog.BinaryLogClient
+    java_import java.io.IOException
 
     def initialize(hostname: "localhost", port: 3306, username:, password:)
       @client = BinaryLogClient.new(hostname, port, username, password)
@@ -34,7 +35,7 @@ module Ecco
 
     def start
       @client.connect
-    rescue java.io.IOException => e
+    rescue IOException => e
       raise Ecco::Error::ConnectionError, e.get_message
     end
 
