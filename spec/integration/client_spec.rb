@@ -1,7 +1,7 @@
 require "spec_helper"
 
-import java.util.logging.Logger
-import java.util.logging.Level
+java_import java.util.logging.Logger
+java_import java.util.logging.Level
 
 describe Ecco::Client do
   subject do
