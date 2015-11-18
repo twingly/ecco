@@ -17,7 +17,7 @@ env:
     - DATABASE_PASS=""
     - DATABASE_URL=jdbc:mysql://localhost:3306/ecco_test
 
-script: bundle exec rake spec:all
+script: bin/all_specs
 
 notifications:
   email: false
