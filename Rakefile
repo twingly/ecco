@@ -1,7 +1,13 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |task|
+  task.exclude_pattern = "spec/integration/*_spec.rb"
+end
+
+namespace :spec do
+  RSpec::Core::RakeTask.new(:all)
+end
 
 task :default => :spec
 

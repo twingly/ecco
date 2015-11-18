@@ -4,3 +4,6 @@ require "ecco"
 
 require_relative "client_context"
 require_relative "event_context"
+
+require_relative "test_helper"
+require_relative "database_helper"

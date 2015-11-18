@@ -1,0 +1,3 @@
+#!/bin/sh
+
+jruby --dev -G -S rake

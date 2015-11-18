@@ -1,0 +1,27 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+
+  - name: Update package cache
+    apt: update_cache=yes
+
+  - name: Install ansible dependencies
+    apt: name={{ item }}
+    with_items:
+      - python-mysqldb
+
+  - name: Install mysql server
+    apt: name=mysql-server state=present
+
+  - name: Copy mysql config file
+    copy: src=files/ecco-my.cnf dest=/etc/mysql/conf.d/
+
+  - name: Allow mysql root connection from remote hosts
+    mysql_user: name=root password="" host=% priv=*.*:ALL state=present
+
+  - name: Restart mysql
+    service: name=mysql state=restarted
+
+  - name: Create database
+    mysql_db: name=ecco_test
