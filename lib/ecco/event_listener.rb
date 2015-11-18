@@ -6,7 +6,7 @@ module Ecco
     attr_writer :callback
 
     def initialize(client)
-      @client  = client
+      @client = client
       @callback = Proc.new {}
     end
 
