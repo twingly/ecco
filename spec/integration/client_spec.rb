@@ -29,6 +29,35 @@ describe Ecco::Client do
     DatabaseHelper.drop_table(table_name)
   end
 
+  describe "#start_in_thread" do
+    context "when called multiple times" do
+      it "should throw an error" do
+        subject.start_in_thread
+
+        expect { subject.start_in_thread }.to raise_error(java.util.concurrent.TimeoutException)
+
+        subject.stop
+      end
+    end
+  end
+
+  describe "#stop" do
+    context "when called multiple times" do
+      it "should not throw an error" do
+        subject.start_in_thread
+
+        subject.stop
+        expect { subject.stop }.not_to raise_error
+      end
+    end
+
+    context "when called before started" do
+      it "should not throw an error" do
+        expect { subject.stop }.not_to raise_error
+      end
+    end
+  end
+
   describe "#set_binlog_filename, #set_binlog_position" do
     context "when position and filename is set" do
       let(:old_position) do
