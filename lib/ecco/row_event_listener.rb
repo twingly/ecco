@@ -31,10 +31,10 @@ module Ecco
         row_event.rows     = data.rows
 
         if @table_map_event
-          event_data = @table_map_event.get_data
+          table_event_data = @table_map_event.get_data
 
-          row_event.database = event_data.get_database
-          row_event.table    = event_data.get_table
+          row_event.database = table_event_data.get_database
+          row_event.table    = table_event_data.get_table
         end
 
         @callback.call(row_event)
