@@ -6,6 +6,8 @@ services:
   - mysql
 
 before_install:
+  - rvm get head
+  - rvm use jruby-9.0.3.0 --install
   - printf "[mysqld]\nlog-bin=mysql-bin\nserver-id=1\nbinlog-format=ROW\n" | sudo tee /etc/mysql/conf.d/binlog.cnf
   - sudo service mysql restart
   - mysql -u root -e 'create database ecco_test;'
