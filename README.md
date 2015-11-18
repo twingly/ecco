@@ -86,7 +86,8 @@ The integration tests don't run by default. To run all the tests, including inte
     jruby --dev -G -S rake spec:all
 
 The tests needs a MySQL server with replication enabled.
-Ecco includes a Vagrant machine that can be used for this.
+
+Ecco includes a Vagrant machine, that can be used for this. Note that your Vagrant host need to have [Ansible] installed as it is used for provisioning.
 
 Just start it before running the tests
 
@@ -107,3 +108,4 @@ which will create a git tag for the version, push git commits and tags, and push
 The gem is available as open source under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 [mysql-binlog-connector-java]: https://github.com/shyiko/mysql-binlog-connector-java
+[Ansible]: http://www.ansible.com/
