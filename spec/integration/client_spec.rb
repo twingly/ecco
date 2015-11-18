@@ -31,7 +31,7 @@ describe Ecco::Client do
 
   describe "#set_binlog_filename, #set_binlog_position" do
     context "when position and filename is set" do
-      let(:old_position) do
+      let(:old_save_events) do
         another_client = described_class.new(
           username: DatabaseHelper::USER,
           password: DatabaseHelper::PASS,
@@ -41,30 +41,34 @@ describe Ecco::Client do
           DatabaseHelper.insert(table_name, mysql_row)
         end
       end
+      let(:old_save_event) { old_save_events.first }
+      let(:new_save_event) do
+        TestHelper.wait_for_save_position_events(subject).first
+      end
 
       before do
-        subject.set_binlog_position(old_position.fetch(:position))
-        subject.set_binlog_filename(old_position.fetch(:filename))
+        subject.set_binlog_position(old_save_event.fetch(:position))
+        subject.set_binlog_filename(old_save_event.fetch(:filename))
 
         DatabaseHelper.flush_logs
         DatabaseHelper.insert(table_name, mysql_row)
       end
 
       it "should start at that position" do
-        subject_position = TestHelper.wait_for_save_position_events(subject)
-
-        expect(subject_position).to eq(old_position)
+        expect(new_save_event).to eq(old_save_event)
       end
     end
   end
 
   describe "#on_row_event" do
     context "when a row is inserted" do
-      let(:row_event) do
+      let(:row_events) do
         TestHelper.wait_for_row_events(subject) do
           DatabaseHelper.insert(table_name, mysql_row)
         end
       end
+
+      let(:row_event) { row_events.first }
 
       it "should receive a row event with correct type" do
         expect(row_event.type).to eq("WRITE_ROWS")
@@ -80,13 +84,15 @@ describe Ecco::Client do
     context "when a row is updated" do
       let(:update_value)   { "another value" }
       let(:update_columns) { { column1: update_value } }
-      let(:row_event) do
+      let(:row_events) do
         id = DatabaseHelper.insert(table_name, mysql_row)
 
         TestHelper.wait_for_row_events(subject) do
           DatabaseHelper.update(table_name, id: id, columns: update_columns )
         end
       end
+
+      let(:row_event) { row_events.first }
 
       it "should receive a row event with correct type" do
         expect(row_event.type).to eq("UPDATE_ROWS")
@@ -102,13 +108,15 @@ describe Ecco::Client do
     end
 
     context "when a row is deleted" do
-      let(:row_event) do
+      let(:row_events) do
         id = DatabaseHelper.insert(table_name, mysql_row)
 
         TestHelper.wait_for_row_events(subject) do
           DatabaseHelper.delete(table_name, id: id)
         end
       end
+
+      let(:row_event) { row_events.first }
 
       it "should receive a row event with correct type" do
         expect(row_event.type).to eq("DELETE_ROWS")
@@ -223,5 +231,4 @@ describe Ecco::Client do
       end
     end
   end
-
 end

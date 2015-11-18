@@ -17,7 +17,7 @@ class TestHelper
 
       sleep SLEEP_TIME while received_events.count < count
 
-      count == 1 ? received_events.first : received_events
+      received_events
     end
   ensure
     ecco_client.stop
@@ -39,7 +39,7 @@ class TestHelper
 
       sleep SLEEP_TIME while received_events.count < count
 
-      count == 1 ? received_events.first : received_events
+      received_events
     end
   ensure
     ecco_client.stop
