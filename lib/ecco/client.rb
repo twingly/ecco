@@ -18,11 +18,11 @@ module Ecco
     def initialize(hostname: "localhost", port: 3306, username:, password:)
       @client = BinaryLogClient.new(hostname, port, username, password)
 
-      @save_event_listener = SaveEventListener.new(self)
-      @client.register_event_listener(@save_event_listener)
-
       @row_event_listener  = RowEventListener.new(self)
       @client.register_event_listener(@row_event_listener)
+
+      @save_event_listener = SaveEventListener.new(self)
+      @client.register_event_listener(@save_event_listener)
     end
 
     def on_save_position(&block)

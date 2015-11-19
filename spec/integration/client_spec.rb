@@ -60,6 +60,31 @@ describe Ecco::Client do
     end
   end
 
+  describe "#on_row_event, #on_save_position" do
+    context "when a row is inserted" do
+      # Take into account the initial save event and the `BEGIN` query event
+      let(:events_to_wait_for) { 4 }
+      let(:actual_event_order) do
+        event_order = []
+        subject.on_row_event { |_| event_order << :on_row_event }
+        subject.on_save_position { |_, _| event_order << :on_save_position }
+
+        subject.start_in_thread
+
+        DatabaseHelper.insert(table_name, mysql_row)
+
+        sleep 0.1 while event_order.count < events_to_wait_for
+        subject.stop
+        event_order.last(2)
+      end
+      let(:expected_event_order) { [ :on_row_event, :on_save_position ] }
+
+      it "should receive the save event after the row event" do
+        expect(actual_event_order).to eq(expected_event_order)
+      end
+    end
+  end
+
   describe "#on_row_event" do
     context "when a row is inserted" do
       let(:row_events) do

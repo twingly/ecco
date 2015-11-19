@@ -24,6 +24,9 @@ class TestHelper
   end
 
   def self.wait_for_save_position_events(ecco_client, count: 1, &block)
+    # Take into account the initial save event that is emitted when client starts
+    count += 1
+
     with_timeout do
       received_events = []
 
@@ -38,6 +41,9 @@ class TestHelper
       block.call if block_given?
 
       sleep SLEEP_TIME while received_events.count < count
+
+      # Remove the initial save event
+      received_events.shift
 
       received_events
     end
