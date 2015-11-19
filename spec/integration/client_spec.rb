@@ -62,6 +62,7 @@ describe Ecco::Client do
 
   describe "#on_row_event, #on_save_position" do
     context "when a row is inserted" do
+      # Take into account the initial save event and the `BEGIN` query event
       let(:events_to_wait_for) { 4 }
       let(:actual_event_order) do
         event_order = []
