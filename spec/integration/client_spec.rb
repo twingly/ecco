@@ -16,9 +16,8 @@ describe Ecco::Client do
   let(:mysql_row)    { { column1: column_value } }
 
   before(:all) do
-    root_logger = Logger.get_logger("")
     # The first handler is by default the console
-    root_logger.get_handlers.first.set_level(Level::WARNING)
+    Logger.get_logger("").get_handlers.first.set_level(Level::WARNING)
   end
 
   before do
