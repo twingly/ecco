@@ -20,13 +20,13 @@ describe Ecco::Client do
   describe "#is_keep_alive" do
     subject { client.is_keep_alive }
 
-    context "when truthy" do
+    context "when true" do
       before { client.set_keep_alive(true) }
 
       it { is_expected.to eq(true) }
     end
 
-    context "when falsey" do
+    context "when false" do
       before { client.set_keep_alive(false) }
 
       it { is_expected.to eq(false) }
