@@ -101,7 +101,7 @@ Just start it before running the tests
 
 ## Release
 
-To release a new version, update the version number in `version.rb`, and then run
+To release a new version, make a commit bumping the version number in `version.rb`, and then run
 
     bundle exec rake release
 
