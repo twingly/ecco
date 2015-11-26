@@ -1,8 +1,5 @@
 require "spec_helper"
 
-java_import java.util.logging.Logger
-java_import java.util.logging.Level
-
 describe Ecco::Client do
   subject do
     described_class.new(
@@ -16,8 +13,7 @@ describe Ecco::Client do
   let(:mysql_row)    { { column1: column_value } }
 
   before(:all) do
-    # The first handler is by default the console
-    Logger.get_logger("").get_handlers.first.set_level(Level::WARNING)
+    set_java_root_logger_level(Level::WARNING)
   end
 
   before do
