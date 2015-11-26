@@ -1,6 +1,7 @@
 require "ext/mysql-binlog-connector-java-#{Ecco::MYSQL_BINLOG_CONNECTOR_VERSION}.jar"
 require "ecco/row_event_listener"
 require "ecco/save_event_listener"
+require "ecco/lifecycle_failure_listener"
 require "ecco/error"
 
 module Ecco
@@ -23,6 +24,9 @@ module Ecco
 
       @save_event_listener = SaveEventListener.new(self)
       @client.register_event_listener(@save_event_listener)
+
+      @lifecycle_failure_listener = LifecycleFailureListener.new
+      @client.register_lifecycle_listener(@lifecycle_failure_listener)
     end
 
     def on_save_position(&block)
@@ -31,6 +35,10 @@ module Ecco
 
     def on_row_event(&block)
       @row_event_listener.callback = block
+    end
+
+    def on_communication_failure(&block)
+      @lifecycle_failure_listener.callback = block
     end
 
     def start

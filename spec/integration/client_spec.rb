@@ -228,6 +228,29 @@ describe Ecco::Client do
     end
   end
 
+  describe "#on_communication_failure" do
+    context "when given bad starting position" do
+      after do
+        subject.stop
+      end
+
+      it "should call the failure handler" do
+        actual_error = nil
+        subject.on_communication_failure do |_, error|
+          actual_error = error
+        end
+
+        subject.set_binlog_filename("this_is_a_test")
+        subject.set_binlog_position(1337)
+
+        # start is blocking, but since we run into an error it will "un-block"
+        subject.start
+
+        expect(actual_error).to be_a(Ecco::Error::CommunicationError)
+      end
+    end
+  end
+
   describe "#start" do
     context "when given a non-existent server" do
       subject do
