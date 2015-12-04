@@ -54,6 +54,10 @@ module Ecco
       @client.connect(connect_timeout)
     end
 
+    def connected?
+      @client.is_connected
+    end
+
     def stop
       @client.disconnect
     end

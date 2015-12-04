@@ -51,6 +51,16 @@ class TestHelper
     ecco_client.stop
   end
 
+  def self.when_connected(ecco_client, &block)
+    with_timeout do
+      ecco_client.start_in_thread
+      sleep 0.1 # To give the client some time to connect
+      block.call if block_given?
+    end
+  ensure
+    ecco_client.stop
+  end
+
   def self.with_timeout
     Timeout.timeout(CLIENT_TIMEOUT) do
       yield
