@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Ecco::Client do
-  subject do
+  subject(:client) do
     described_class.new(
       username: DatabaseHelper::USER,
       password: DatabaseHelper::PASS,
@@ -272,6 +272,22 @@ describe Ecco::Client do
       it "will raise an error" do
         expect { subject.start }.to raise_error(Ecco::Error::ConnectionError)
       end
+    end
+  end
+
+  describe "#connected?" do
+    subject { client.connected? }
+
+    context "when connected" do
+      it "should return true" do
+        TestHelper.when_connected(client) do
+          expect(subject).to be(true)
+        end
+      end
+    end
+
+    context "when not connected" do
+      it { is_expected.to be(false) }
     end
   end
 end
