@@ -1,11 +1,13 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
+desc "Run non-integration specs"
 RSpec::Core::RakeTask.new(:spec) do |task|
   task.exclude_pattern = "spec/integration/*_spec.rb"
 end
 
 namespace :spec do
+  desc "Run all specs (including integration)"
   RSpec::Core::RakeTask.new(:all)
 end
 
