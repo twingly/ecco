@@ -27,6 +27,7 @@ env:
     - DATABASE_USER=root
     - DATABASE_PASS=""
     - DATABASE_URL=jdbc:mysql://localhost:3306/ecco_test
+    - JRUBY_OPTS='--client -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -Xcext.enabled=false -J-Xss2m -Xcompile.invokedynamic=false'
 
 script: bin/all_specs
 
