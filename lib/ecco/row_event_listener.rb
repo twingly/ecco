@@ -5,8 +5,11 @@ module Ecco
   class RowEventListener < EventListener
     ROW_EVENTS = [
       EventType::WRITE_ROWS,
+      EventType::EXT_WRITE_ROWS,
       EventType::UPDATE_ROWS,
+      EventType::EXT_UPDATE_ROWS,
       EventType::DELETE_ROWS,
+      EventType::EXT_DELETE_ROWS,
     ]
 
     def table_event
