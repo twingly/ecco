@@ -6,8 +6,11 @@ module Ecco
       EventType::QUERY,
       EventType::ROTATE,
       EventType::WRITE_ROWS,
+      EventType::EXT_WRITE_ROWS,
       EventType::UPDATE_ROWS,
+      EventType::EXT_UPDATE_ROWS,
       EventType::DELETE_ROWS,
+      EventType::EXT_DELETE_ROWS,
     ]
 
     def accepted_events
