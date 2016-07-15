@@ -93,7 +93,7 @@ describe Ecco::Client do
       let(:row_event) { row_events.first }
 
       it "should receive a row event with correct type" do
-        expect(row_event.type).to eq("EXT_WRITE_ROWS")
+        expect(row_event.type).to eq("WRITE_ROWS")
       end
 
       it "should receive a row event with the inserted row" do
@@ -117,7 +117,7 @@ describe Ecco::Client do
       let(:row_event) { row_events.first }
 
       it "should receive a row event with correct type" do
-        expect(row_event.type).to eq("EXT_UPDATE_ROWS")
+        expect(row_event.type).to eq("UPDATE_ROWS")
       end
 
       it "should receive a row event with the old and updated row" do
@@ -141,7 +141,7 @@ describe Ecco::Client do
       let(:row_event) { row_events.first }
 
       it "should receive a row event with correct type" do
-        expect(row_event.type).to eq("EXT_DELETE_ROWS")
+        expect(row_event.type).to eq("DELETE_ROWS")
       end
 
       it "should receive a row event with the deleted row" do

@@ -26,7 +26,7 @@ describe Ecco::RowEventListener do
       subject.on_event(table_event)
       subject.on_event(row_event)
 
-      expect(actual_type).to eq(row_event_type)
+      expect(actual_type).to eq("WRITE_ROWS")
       expect(actual_table_id).to eq(table_id)
       expect(actual_rows).to eq(rows)
       expect(actual_database).to eq(database)

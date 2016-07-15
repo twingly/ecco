@@ -1,10 +1,12 @@
+java_import com.github.shyiko.mysql.binlog.event.EventType
+
 shared_context "event" do
   let(:table_id) { 1 }
   let(:rows) { double("List") }
   let(:database) { "some_database" }
   let(:table) { "some_table" }
-  let(:table_event_type) { "event_type_table_map" }
-  let(:row_event_type) { "event_type_write_rows" }
+  let(:table_event_type) { EventType::TABLE_MAP }
+  let(:row_event_type) { EventType::EXT_WRITE_ROWS }
 
   let(:table_event) do
     event = double("Event")
