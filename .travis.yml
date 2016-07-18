@@ -1,24 +1,35 @@
 sudo: true
 
+dist: trusty
+addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
+    - haveged # Extra entropy
+
 language: ruby
 
 rvm:
-- jruby-9.0.5.0
+  - jruby-9.0.5.0
 
 services:
   - mysql
 
 before_install:
+  - sudo service haveged start # Extra entropy too ensure quick start time for JRuby
   - printf "[mysqld]\nlog-bin=mysql-bin\nserver-id=1\nbinlog-format=ROW\n" | sudo tee /etc/mysql/conf.d/binlog.cnf
   - sudo service mysql restart
   - mysql -u root -e 'create database ecco_test;'
-  - gem install bundler -v 1.10.6
+  - gem install bundler
 
 env:
   global:
     - DATABASE_USER=root
     - DATABASE_PASS=""
     - DATABASE_URL=jdbc:mysql://localhost:3306/ecco_test
+    - JRUBY_OPTS='--client -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -Xcext.enabled=false -J-Xss2m -Xcompile.invokedynamic=false'
 
 script: bin/all_specs
 

@@ -7,5 +7,8 @@ Vagrant.configure("2") do |config|
     end
 
     ubuntu.vm.network :forwarded_port, host: 3306, guest: 3306
+    ubuntu.vm.provider "virtualbox" do |vbox|
+      vbox.memory = 1024
+    end
   end
 end

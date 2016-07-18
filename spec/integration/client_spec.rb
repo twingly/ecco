@@ -68,7 +68,9 @@ describe Ecco::Client do
 
         DatabaseHelper.insert(table_name, mysql_row)
 
-        sleep 0.1 while event_order.count < events_to_wait_for
+        TestHelper.with_timeout do
+          sleep 0.1 while event_order.count < events_to_wait_for
+        end
         subject.stop
         event_order.last(2)
       end
