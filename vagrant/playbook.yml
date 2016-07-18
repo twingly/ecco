@@ -12,7 +12,7 @@
       - python-mysqldb
 
   - name: Install mysql server
-    apt: name=mysql-server state=present
+    apt: name=mysql-server-5.6 state=present
 
   - name: Copy mysql config file
     copy: src=files/ecco-my.cnf dest=/etc/mysql/conf.d/
