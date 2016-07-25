@@ -19,3 +19,10 @@ namespace :maven do
     system("mvn dependency:copy-dependencies -DoutputDirectory=lib/ext")
   end
 end
+
+require "github_changelog_generator/task"
+
+GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+  config.user = "twingly"
+  config.project = "ecco"
+end
