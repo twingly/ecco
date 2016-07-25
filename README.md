@@ -107,6 +107,12 @@ To release a new version, make a commit bumping the version number in `version.r
 
 which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+Update the changelog with
+
+    bundle exec rake changelog
+
+make a commit and push.
+
 ## License
 
 The gem is available as open source under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
