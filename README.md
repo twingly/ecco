@@ -107,11 +107,16 @@ To release a new version, make a commit bumping the version number in `version.r
 
 which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
-Update the changelog with
+Update the changelog with [GitHub Changelog Generator]:
 
-    bundle exec rake changelog
+    github_changelog_generator
 
-make a commit and push.
+Preparations you might have to do:
+
+* `gem install github_changelog_generator` if you don't have it
+* Set `CHANGELOG_GITHUB_TOKEN` to a personal access token to increase your GitHub API rate limit.
+
+Make a commit with the changelog changes and push.
 
 ## License
 
@@ -119,3 +124,4 @@ The gem is available as open source under the terms of the [Apache License, Vers
 
 [mysql-binlog-connector-java]: https://github.com/shyiko/mysql-binlog-connector-java
 [Ansible]: http://www.ansible.com/
+[GitHub Changelog Generator]: https://github.com/skywinder/github-changelog-generator/
