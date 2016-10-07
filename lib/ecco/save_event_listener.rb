@@ -22,9 +22,9 @@ module Ecco
 
       case type
       when *accepted_events
+        filename        = @client.get_binlog_filename
+        position        = @client.get_binlog_position
         event_type_name = SAVE_EVENTS.fetch(type)
-        filename = @client.get_binlog_filename
-        position = @client.get_binlog_position
 
         @callback.call(filename, position, event_type_name)
       end
