@@ -114,7 +114,7 @@ Update the changelog with [GitHub Changelog Generator]:
 Preparations you might have to do:
 
 * `gem install github_changelog_generator` if you don't have it
-* Set `CHANGELOG_GITHUB_TOKEN` to a personal access token to increase your GitHub API rate limit.
+* set `CHANGELOG_GITHUB_TOKEN` to a personal access token to increase your GitHub API rate limit
 
 Make a commit with the changelog changes and push.
 
