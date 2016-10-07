@@ -22,7 +22,7 @@ describe Ecco::SaveEventListener do
       acutal_event_type_name = nil
       actual_filename, actual_position = [nil, 0]
 
-      subject.callback = Proc.new do |event_type_name, filename, position|
+      subject.callback = Proc.new do |filename, position, event_type_name|
         acutal_event_type_name = event_type_name
         actual_filename = filename
         actual_position = position

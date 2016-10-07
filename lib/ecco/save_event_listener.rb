@@ -26,7 +26,7 @@ module Ecco
         filename = @client.get_binlog_filename
         position = @client.get_binlog_position
 
-        @callback.call(event_type_name, filename, position)
+        @callback.call(filename, position, event_type_name)
       end
     end
   end
