@@ -32,9 +32,9 @@ class TestHelper
 
       ecco_client.on_save_position do |filename, position, event_type_name|
         received_events << {
-          event_type_name: event_type_name,
           filename: filename,
           position: position,
+          event_type_name: event_type_name,
         }
       end
 
