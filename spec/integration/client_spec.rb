@@ -62,7 +62,7 @@ describe Ecco::Client do
       let(:actual_event_order) do
         event_order = []
         subject.on_row_event { |_| event_order << :on_row_event }
-        subject.on_save_position { |_, _| event_order << :on_save_position }
+        subject.on_save_position { |_, _, _| event_order << :on_save_position }
 
         subject.start_in_thread
 

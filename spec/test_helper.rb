@@ -30,8 +30,9 @@ class TestHelper
     with_timeout do
       received_events = []
 
-      ecco_client.on_save_position do |filename, position|
+      ecco_client.on_save_position do |event_type_name, filename, position|
         received_events << {
+          event_type_name: event_type_name,
           filename: filename,
           position: position,
         }
