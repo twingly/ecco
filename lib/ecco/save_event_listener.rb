@@ -22,7 +22,7 @@ module Ecco
 
       case type
       when *accepted_events
-        event_type_name = SAVE_EVENTS[type]
+        event_type_name = SAVE_EVENTS.fetch(type)
         filename = @client.get_binlog_filename
         position = @client.get_binlog_position
 
