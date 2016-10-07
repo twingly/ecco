@@ -1,5 +1,17 @@
 # Change Log
 
+## [v0.7.0](https://github.com/twingly/ecco/tree/v0.7.0) (2016-10-07)
+[Full Changelog](https://github.com/twingly/ecco/compare/v0.6.1...v0.7.0)
+
+**Implemented enhancements:**
+
+- Extend on\_save\_position with information about the event [\#23](https://github.com/twingly/ecco/issues/23)
+
+**Merged pull requests:**
+
+- Expose event information in on\_save\_position [\#24](https://github.com/twingly/ecco/pull/24) ([dentarg](https://github.com/dentarg))
+- Add changelog [\#21](https://github.com/twingly/ecco/pull/21) ([dentarg](https://github.com/dentarg))
+
 ## [v0.6.1](https://github.com/twingly/ecco/tree/v0.6.1) (2016-07-18)
 [Full Changelog](https://github.com/twingly/ecco/compare/v0.6.0...v0.6.1)
 
