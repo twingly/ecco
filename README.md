@@ -46,8 +46,8 @@ client.on_row_event do |row_event|
   puts "Row event: #{database} #{table} #{type} #{second_column}"
 end
 
-client.on_save_position do |filename, position|
-  puts "Save event: #{filename} #{position}"
+client.on_save_position do |filename, position, event_type_name|
+  puts "Saved #{event_type_name} event: #{filename} #{position}"
 end
 
 client.on_communication_failure do |client, error|
