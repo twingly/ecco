@@ -13,12 +13,13 @@ language: ruby
 
 rvm:
   - jruby-9.0.5.0
+  - jruby-9.1.13.0
 
 services:
   - mysql
 
 before_install:
-  - sudo service haveged start # Extra entropy too ensure quick start time for JRuby
+  - sudo service haveged start # Extra entropy to ensure quick start time for JRuby
   - printf "[mysqld]\nlog-bin=mysql-bin\nserver-id=1\nbinlog-format=ROW\n" | sudo tee /etc/mysql/conf.d/binlog.cnf
   - sudo service mysql restart
   - mysql -u root -e 'create database ecco_test;'
