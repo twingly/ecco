@@ -12,9 +12,23 @@ module Ecco
     def_delegators :@client, :set_server_id, :get_server_id
     def_delegators :@client, :set_keep_alive, :is_keep_alive
     def_delegators :@client, :set_keep_alive_interval, :get_keep_alive_interval
-    def_delegators :@client, :set_keep_alive_connect_timeout, :get_keep_alive_connect_timeout
+    def_delegators :@client, :set_connect_timeout, :get_connect_timeout
     def_delegators :@client, :set_binlog_filename, :get_binlog_filename
     def_delegators :@client, :set_binlog_position, :get_binlog_position
+
+    def get_keep_alive_connect_timeout
+      warn "[DEPRECATION] `#{__method__}` is deprecated. "\
+           "Please use `get_connect_timeout` instead."
+
+      get_connect_timeout
+    end
+
+    def set_keep_alive_connect_timeout(timeout)
+      warn "[DEPRECATION] `#{__method__}` is deprecated. "\
+           "Please use `set_connect_timeout` instead."
+
+      set_connect_timeout(timeout)
+    end
 
     java_import com.github.shyiko.mysql.binlog.BinaryLogClient
     java_import java.io.IOException
