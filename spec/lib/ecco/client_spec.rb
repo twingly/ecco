@@ -42,6 +42,15 @@ describe Ecco::Client do
     it { is_expected.to eq(keep_alive_interval) }
   end
 
+  describe "#set_heartbeat_interval" do
+    let(:heartbeat_interval) { 11 }
+
+    before  { client.set_heartbeat_interval(heartbeat_interval) }
+    subject { client.get_heartbeat_interval }
+
+    it { is_expected.to eq(heartbeat_interval) }
+  end
+
   describe "#set_connect_timeout" do
     let(:connect_timeout) { 300 }
 
