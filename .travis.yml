@@ -17,7 +17,7 @@ before_install:
   - printf "[mysqld]\nlog-bin=mysql-bin\nserver-id=1\nbinlog-format=ROW\n" | sudo tee /etc/mysql/conf.d/binlog.cnf
   - sudo service mysql restart
   - mysql -u root -e 'create database ecco_test;'
-  - gem install bundler
+  - gem install bundler -v 1.17.3
 env:
   global:
     - DATABASE_USER=root
