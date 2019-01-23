@@ -1,5 +1,3 @@
-sudo: true
-dist: trusty
 addons:
   apt:
     packages:
