@@ -91,11 +91,11 @@ The integration tests don't run by default. To run all the tests, including inte
 
 The tests needs a MySQL server with replication enabled.
 
-Ecco includes a Vagrant machine, that can be used for this. Note that your Vagrant host need to have [Ansible] installed as it is used for provisioning.
+Ecco includes a Docker Compose definition that can be used for this.
 
 Just start it before running the tests
 
-    vagrant up
+    docker-compose up
 
 *Note: Stop any local mysql servers first as it forwards mysql to localhost:3306.*
 
@@ -123,5 +123,4 @@ Make a commit with the changelog changes and push.
 The gem is available as open source under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 [mysql-binlog-connector-java]: https://github.com/shyiko/mysql-binlog-connector-java
-[Ansible]: http://www.ansible.com/
 [GitHub Changelog Generator]: https://github.com/skywinder/github-changelog-generator/

@@ -2,4 +2,3 @@
 log-bin=mysql-bin
 server-id=1
 binlog-format=ROW
-bind-address=0.0.0.0
