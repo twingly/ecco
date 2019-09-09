@@ -8,5 +8,3 @@
 /spec/reports/
 /tmp/
 .env
-.vagrant
-*.retry
