@@ -7,7 +7,6 @@ addons:
     packages:
     - haveged # Extra entropy
 rvm:
-  - jruby-9.0.5.0
   - jruby-9.1.17.0
   - jruby-9.2.7.0
 before_install:
