@@ -1,31 +1,22 @@
-dist: trusty
+language: ruby
+services:
+  - docker
 addons:
   apt:
     packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
     - haveged # Extra entropy
-language: ruby
 rvm:
   - jruby-9.0.5.0
   - jruby-9.1.17.0
   - jruby-9.2.7.0
-services:
-  - mysql
 before_install:
   - sudo service haveged start # Extra entropy to ensure quick start time for JRuby
-  - printf "[mysqld]\nlog-bin=mysql-bin\nserver-id=1\nbinlog-format=ROW\n" | sudo tee /etc/mysql/conf.d/binlog.cnf
-  - sudo service mysql restart
-  - mysql -u root -e 'create database ecco_test;'
   - rvm use @global
   - gem uninstall -v '>= 2' -ax bundler || true
   - gem install bundler -v '< 2'
+  - docker-compose up -d
 env:
   global:
-    - DATABASE_USER=root
-    - DATABASE_PASS=""
-    - DATABASE_URL=jdbc:mysql://localhost:3306/ecco_test
     - JRUBY_OPTS='--client -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -Xcext.enabled=false -J-Xss2m -Xcompile.invokedynamic=false'
 script: bin/all_specs
 notifications:
