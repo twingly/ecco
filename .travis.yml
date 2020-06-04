@@ -7,7 +7,6 @@ addons:
     packages:
     - haveged # Extra entropy
 rvm:
-  - jruby-9.1.17.0
   - jruby-9.2.7.0
 before_install:
   - sudo service haveged start # Extra entropy to ensure quick start time for JRuby
