@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/twingly/ecco.svg?branch=master)](https://travis-ci.org/twingly/ecco)
 
-MySQL (version 5.5 and 5.6) replication binlog parser using [mysql-binlog-connector-java].
+MySQL 5.6 replication binlog parser using [mysql-binlog-connector-java].
 
 ## Installation
 
