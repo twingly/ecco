@@ -36,7 +36,7 @@ describe Ecco::RowEventListener do
     end
 
     describe "RowEvent#type" do
-      context "MySQL 5.5 v1 ROW_EVENTS" do
+      context "MySQL v1 ROW_EVENTS" do
         context "WRITE_ROWS" do
           let(:row_event_type) { EventType::WRITE_ROWS }
           it "should return WRITE_ROWS" do
@@ -80,7 +80,7 @@ describe Ecco::RowEventListener do
         end
       end
 
-      context "MySQL 5.6 v2 ROW_EVENTS" do
+      context "MySQL v2 ROW_EVENTS" do
         context "EXT_WRITE_ROWS" do
           let(:row_event_type) { EventType::EXT_WRITE_ROWS }
           it "should return WRITE_ROWS" do
