@@ -6,12 +6,11 @@ addons:
   apt:
     packages:
     - haveged # Extra entropy
-rvm:
-  - jruby-9.2.7.0
 before_install:
   - sudo service haveged start # Extra entropy to ensure quick start time for JRuby
-  - rvm use @global
-  - gem uninstall -v '>= 2' -ax bundler || true
+  - rvm get master
+  - rvm install jruby-9.2.13.0
+  - rvm use jruby-9.2.13.0
   - gem install bundler -v '< 2'
   - docker-compose up -d
 env:
