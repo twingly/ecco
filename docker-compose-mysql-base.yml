@@ -1,8 +1,9 @@
-version: "3.1"
+# https://docs.docker.com/compose/extends/#adding-and-overriding-configuration
+
+version: "3.7"
 
 services:
   db:
-    image: mysql:5.6
     volumes:
       - ./docker/ecco-my.cnf:/etc/mysql/conf.d/ecco-my.cnf
     ports:
