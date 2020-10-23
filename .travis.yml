@@ -2,20 +2,33 @@ dist: bionic
 language: ruby
 services:
   - docker
+
 addons:
   apt:
     packages:
     - haveged # Extra entropy
+
 before_install:
   - sudo service haveged start # Extra entropy to ensure quick start time for JRuby
   - rvm get master
   - rvm install jruby-9.2.13.0
   - rvm use jruby-9.2.13.0
   - gem install bundler -v '< 2'
-  - docker-compose up -d
+  - docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-$MYSQL_VERSION.yml up -d
+
 env:
   global:
     - JRUBY_OPTS='--client -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-Xss2m -Xcompile.invokedynamic=false'
+  jobs:
+    - MYSQL_VERSION="5-6"
+    - MYSQL_VERSION="5-7"
+    - MYSQL_VERSION="8-0"
+
+jobs:
+  allow_failures:
+    - env: MYSQL_VERSION="8-0"
+  
 script: bin/all_specs
+  
 notifications:
   email: false
