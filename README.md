@@ -91,9 +91,9 @@ The integration tests don't run by default. To run all the tests, including inte
 
 The tests needs a MySQL server with replication enabled.
 
-Ecco includes multiple Docker Compose definitions that can be used for this, one per supported MySQL version:
+Ecco includes multiple Docker Compose definitions that can be used for this, one per supported MySQL version.
 
-Just start it before running the tests
+Start the desired version before running the tests:
 
 ```shell
 # MySQL 5.6
@@ -105,7 +105,8 @@ docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-5-7.yml 
 # MySQL 8.0
 docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-8-0.yml up
 ```
-*Note: Stop any local mysql servers first as it forwards mysql to localhost:3306.*
+
+*Note: Stop any local MySQL server first, otherwise there will be port collisions*
 
 ## Release
 
