@@ -1,4 +1,4 @@
 module Ecco
-  VERSION = "0.7.0"
+  VERSION = "0.8.0"
   MYSQL_BINLOG_CONNECTOR_VERSION = "0.21.0"
 end
