@@ -1,5 +1,6 @@
 require "ecco/event_listener"
 require "ecco/row_event"
+require_relative "ruby_rows"
 
 module Ecco
   class RowEventListener < EventListener
@@ -26,10 +27,7 @@ module Ecco
       when table_event
         @table_map_event = event
       when *accepted_events
-        row_event          = Ecco::RowEvent.new
-        row_event.table_id = data.get_table_id
-        row_event.rows     = data.rows
-        row_event.type     = row_type_to_string(type)
+        row_event = row_event_create_with(type, data)
 
         if @table_map_event
           table_event_data = @table_map_event.get_data
@@ -44,14 +42,20 @@ module Ecco
 
     private
 
-    def row_type_to_string(type)
+    def row_event_create_with(type, data)
+      row_event = nil
+
       if WRITE_EVENTS.include?(type)
-        "WRITE_ROWS"
+        row_event = Ecco::RowEventWrite.new
       elsif UPDATE_EVENTS.include?(type)
-        "UPDATE_ROWS"
+        row_event = Ecco::RowEventUpdate.new
       elsif DELETE_EVENTS.include?(type)
-        "DELETE_ROWS"
+        row_event = Ecco::RowEventDelete.new
       end
+      row_event.table_id = data.get_table_id
+      row_event.rows = Ecco::RubyRows.convert_to_ruby(data.rows)
+
+      row_event
     end
   end
 end
