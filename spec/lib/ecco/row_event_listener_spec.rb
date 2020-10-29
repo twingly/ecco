@@ -53,6 +53,9 @@ describe Ecco::RowEventListener do
 
         context "UPDATE_ROWS" do
           let(:row_event_type) { EventType::UPDATE_ROWS }
+          let(:update_entry) { Java::JavaUtil::Map.entry([], []) }
+          let(:rows) { Java::JavaUtil::ArrayList.new(Array.new(1) { update_entry }) }
+
           it "should return UPDATE_ROWS" do
             actual_type = nil
             subject.callback = Proc.new do |row_event|
@@ -97,6 +100,9 @@ describe Ecco::RowEventListener do
 
         context "EXT_UPDATE_ROWS" do
           let(:row_event_type) { EventType::EXT_UPDATE_ROWS }
+          let(:update_entry) { Java::JavaUtil::Map.entry([], []) }
+          let(:rows) { Java::JavaUtil::ArrayList.new(Array.new(1) { update_entry }) }
+
           it "should return UPDATE_ROWS" do
             actual_type = nil
             subject.callback = Proc.new do |row_event|

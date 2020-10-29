@@ -1,5 +1,6 @@
 require "ecco/event_listener"
 require "ecco/row_event"
+require_relative "row_converter"
 
 module Ecco
   class RowEventListener < EventListener
@@ -17,8 +18,8 @@ module Ecco
       when *accepted_events
         row_event          = Ecco::RowEvent.new
         row_event.table_id = data.get_table_id
-        row_event.rows     = data.rows
         row_event.type     = event_type_to_string(type)
+        row_event.rows     = Ecco::RowsConverter.convert(data.rows, row_event.type)
 
         if @table_map_event
           table_event_data = @table_map_event.get_data
