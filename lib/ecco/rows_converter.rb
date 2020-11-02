@@ -1,10 +1,5 @@
 module Ecco
   module RowsConverter
-    COLUMN_ID_BEFORE    = 0
-    COLUMN_VALUE_BEFORE = 1
-    COLUMN_ID_AFTER     = 0
-    COLUMN_VALUE_AFTER  = 1
-
     def self.convert(java_rows, type)
       if type == "UPDATE_ROWS"
         convert_update_rows(java_rows)
@@ -17,16 +12,14 @@ module Ecco
       java_rows.to_a
     end
 
-    def self.java_array_list_to_ruby_array(java_rows)
-      before_update_key   = java_rows.first.get_key[COLUMN_ID_BEFORE]
-      before_update_value = java_rows.first.get_key[COLUMN_VALUE_BEFORE]
-      after_update_key    = java_rows.first.get_value[COLUMN_ID_AFTER]
-      after_update_value  = java_rows.first.get_value[COLUMN_VALUE_AFTER]
+    def self.convert_update_rows(java_rows)
+      before_update_row = java_rows.first.get_key.to_a
+      after_update_row  = java_rows.first.get_value.to_a
 
       Array.new(1) do
         Tuple.new(
-          key: [before_update_key, before_update_value],
-          value: [after_update_key, after_update_value]
+          key: before_update_row,
+          value: after_update_row
         )
       end
     end
