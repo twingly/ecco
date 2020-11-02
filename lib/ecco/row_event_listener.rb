@@ -1,6 +1,6 @@
 require "ecco/event_listener"
 require "ecco/row_event"
-require_relative "row_converter"
+require_relative "rows_converter"
 
 module Ecco
   class RowEventListener < EventListener

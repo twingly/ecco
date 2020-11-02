@@ -1,5 +1,5 @@
 module Ecco
-  module RubyConverter
+  module RowsConverter
     FIRST_COLUMN = 0
     SECOND_COLUMN = 1
     KEY = 0
