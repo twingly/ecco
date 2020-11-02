@@ -1,13 +1,14 @@
 java_import com.github.shyiko.mysql.binlog.event.EventType
+java_import java.util.Arrays
 
 shared_context "event" do
   let(:table_id) { 1 }
   let(:rows) do
     Java::JavaUtil::LinkedList.new(
-      Array.new(1) do
+      Arrays.asList(
         Array.new(1).to_java { Array.new(2).to_java }
-      end
       )
+    )
   end
   let(:database) { "some_database" }
   let(:table) { "some_table" }
