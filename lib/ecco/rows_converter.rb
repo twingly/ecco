@@ -5,15 +5,15 @@ module Ecco
     COLUMN_ID_AFTER     = 0
     COLUMN_VALUE_AFTER  = 1
 
-    def self.to_ruby(java_rows, type)
+    def self.convert(java_rows, type)
       if type == "UPDATE_ROWS"
-        java_array_list_to_ruby_array(java_rows)
+        convert_update_rows(java_rows)
       else
-        java_linked_list_to_ruby_array(java_rows)
+        convert_write_or_delete_rows(java_rows)
       end
     end
 
-    def self.java_linked_list_to_ruby_array(java_rows)
+    def self.convert_write_or_delete_rows(java_rows)
       java_rows.to_a
     end
 
