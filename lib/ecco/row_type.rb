@@ -15,26 +15,18 @@ module Ecco
     TABLE_EVENT = EventType::TABLE_MAP
 
     def self.accepted_events
-      EVENTS.keys
+      self::EVENTS.keys
     end
 
     def self.fetch_event(type)
-      EVENTS.fetch(type)
+      self::EVENTS.fetch(type)
     end
   end
 
   class RowTypeSave < RowType
-    SAVE_EVENTS = {
+    EVENTS = {
       EventType::QUERY  => "QUERY",
-      EventType::ROTATE => "ROTATE",
+      EventType::ROTATE => "ROTATE"
     }.merge(EVENTS)
-
-    def self.accepted_events
-      SAVE_EVENTS.keys
-    end
-
-    def self.fetch_event(type)
-      SAVE_EVENTS.fetch(type)
-    end
   end
 end
