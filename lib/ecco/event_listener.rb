@@ -8,15 +8,7 @@ module Ecco
     def initialize(client)
       @client = client
       @callback = Proc.new {}
-    end
-
-    def on_event(event)
-      raise NotImplementedError
-    end
-
-    class RowType
-      # MySQL v1 and v2 row events
-      EVENTS = {
+      @events = {
         EventType::WRITE_ROWS      => "WRITE_ROWS",
         EventType::EXT_WRITE_ROWS  => "WRITE_ROWS",
         EventType::UPDATE_ROWS     => "UPDATE_ROWS",
@@ -24,23 +16,20 @@ module Ecco
         EventType::DELETE_ROWS     => "DELETE_ROWS",
         EventType::EXT_DELETE_ROWS => "DELETE_ROWS"
       }
-
-      TABLE_EVENT = EventType::TABLE_MAP
-
-      def self.accepted_events
-        self::EVENTS.keys
-      end
-
-      def self.fetch_event(type)
-        self::EVENTS.fetch(type)
-      end
     end
 
-    class RowTypeSave < RowType
-      EVENTS = {
-        EventType::QUERY  => "QUERY",
-        EventType::ROTATE => "ROTATE"
-      }.merge(EVENTS)
+    TABLE_EVENT = EventType::TABLE_MAP
+
+    def on_event(event)
+      raise NotImplementedError
+    end
+
+    def accepted_events
+      @events.keys
+    end
+
+    def fetch_event(type)
+      @events.fetch(type)
     end
   end
 end
