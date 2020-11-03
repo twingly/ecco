@@ -27,9 +27,7 @@ module Ecco
     SAVE_EVENTS = {
       EventType::QUERY  => "QUERY",
       EventType::ROTATE => "ROTATE",
-    }
-
-    SAVE_EVENTS = SAVE_EVENTS.merge(EVENTS)
+    }.merge(EVENTS)
 
     def self.accepted_events
       SAVE_EVENTS.keys
