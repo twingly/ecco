@@ -1,5 +1,5 @@
 require "ecco/event_listener"
-require_relative "row_type"
+require "ecco/row_type"
 
 module Ecco
   class SaveEventListener < EventListener
