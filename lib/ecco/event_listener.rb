@@ -8,7 +8,16 @@ module Ecco
     def initialize(client)
       @client = client
       @callback = Proc.new {}
-      @events = {
+    end
+
+    TABLE_EVENT = EventType::TABLE_MAP
+
+    def on_event(event)
+      raise NotImplementedError
+    end
+
+    def events
+      {
         EventType::WRITE_ROWS      => "WRITE_ROWS",
         EventType::EXT_WRITE_ROWS  => "WRITE_ROWS",
         EventType::UPDATE_ROWS     => "UPDATE_ROWS",
@@ -18,18 +27,12 @@ module Ecco
       }
     end
 
-    TABLE_EVENT = EventType::TABLE_MAP
-
-    def on_event(event)
-      raise NotImplementedError
-    end
-
     def accepted_events
-      @events.keys
+      events.keys
     end
 
     def fetch_event(type)
-      @events.fetch(type)
+      events.fetch(type)
     end
   end
 end
