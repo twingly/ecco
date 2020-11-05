@@ -3,36 +3,32 @@ module Ecco
     include com.github.shyiko.mysql.binlog.BinaryLogClient::EventListener
     java_import com.github.shyiko.mysql.binlog.event.EventType
 
-    attr_writer :callback
-
-    def initialize(client)
-      @client = client
-      @callback = Proc.new {}
-    end
+    WRITE_EVENTS  = { EventType::WRITE_ROWS => "WRITE_ROWS", EventType::EXT_WRITE_ROWS => "WRITE_ROWS" }
+    UPDATE_EVENTS = { EventType::UPDATE_ROWS => "UPDATE_ROWS", EventType::EXT_UPDATE_ROWS => "UPDATE_ROWS" }
+    DELETE_EVENTS = { EventType::DELETE_ROWS => "DELETE_ROWS" , EventType::EXT_DELETE_ROWS => "DELETE_ROWS" }
+    QUERY_EVENTS  = { EventType::QUERY => "QUERY"}
+    ROTATE_EVENTS = { EventType::ROTATE => "ROTATE"}
 
     TABLE_EVENT = EventType::TABLE_MAP
+
+    attr_writer :callback
+
+    def initialize(client, events_of_interest)
+      @client = client
+      @events_of_interest = events_of_interest
+      @callback = Proc.new {}
+    end
 
     def on_event(event)
       raise NotImplementedError
     end
 
-    def events
-      {
-        EventType::WRITE_ROWS      => "WRITE_ROWS",
-        EventType::EXT_WRITE_ROWS  => "WRITE_ROWS",
-        EventType::UPDATE_ROWS     => "UPDATE_ROWS",
-        EventType::EXT_UPDATE_ROWS => "UPDATE_ROWS",
-        EventType::DELETE_ROWS     => "DELETE_ROWS",
-        EventType::EXT_DELETE_ROWS => "DELETE_ROWS"
-      }
-    end
-
     def accepted_events
-      events.keys
+      @events_of_interest.keys
     end
 
-    def fetch_event(type)
-      events.fetch(type)
+    def event_type_to_string(type)
+      @events_of_interest.fetch(type)
     end
   end
 end

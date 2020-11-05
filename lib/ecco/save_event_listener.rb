@@ -2,22 +2,22 @@ require "ecco/event_listener"
 
 module Ecco
   class SaveEventListener < EventListener
+    def initialize(client)
+      events_of_interest =
+      WRITE_EVENTS.merge(UPDATE_EVENTS).merge(DELETE_EVENTS).merge(QUERY_EVENTS).merge(ROTATE_EVENTS)
+      super(client, events_of_interest)
+    end
+
     def on_event(event)
       type = event.get_header.get_event_type
       case type
       when *accepted_events
         filename        = @client.get_binlog_filename
         position        = @client.get_binlog_position
-        event_type_name = fetch_event(type)
+        event_type_name = event_type_to_string(type)
 
         @callback.call(filename, position, event_type_name)
       end
-    end
-    def events
-      {
-        EventType::QUERY  => "QUERY",
-        EventType::ROTATE => "ROTATE"
-      }.merge(super)
     end
   end
 end
