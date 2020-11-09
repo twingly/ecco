@@ -4,8 +4,6 @@ require "ecco/row_event"
 module Ecco
   class RowEventListener < EventListener
     def initialize(client)
-      events_of_interest =
-        WRITE_EVENTS.merge(UPDATE_EVENTS).merge(DELETE_EVENTS)
       super(client, events_of_interest)
     end
 
@@ -31,6 +29,12 @@ module Ecco
 
         @callback.call(row_event)
       end
+    end
+
+    private
+
+    def events_of_interest
+      [WRITE_EVENTS, UPDATE_EVENTS, DELETE_EVENTS]
     end
   end
 end
