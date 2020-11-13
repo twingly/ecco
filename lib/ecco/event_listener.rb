@@ -15,8 +15,10 @@ module Ecco
 
     def initialize(client, events_of_interest)
       @client = client
-      @event_list = events_of_interest.reduce(&:merge)
-      @accepted_events = @event_list.keys
+
+      @events_of_interest = events_of_interest.reduce(&:merge)
+      @accepted_events = @events_of_interest.keys
+
       @callback = Proc.new {}
     end
 
@@ -29,7 +31,7 @@ module Ecco
     end
 
     def event_type_to_string(type)
-      @event_list.fetch(type)
+      @events_of_interest.fetch(type)
     end
   end
 end
