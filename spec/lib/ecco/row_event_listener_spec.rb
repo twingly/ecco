@@ -56,17 +56,6 @@ describe Ecco::RowEventListener do
 
         context "UPDATE_ROWS" do
           let(:row_event_type) { EventType::UPDATE_ROWS }
-          let(:rows) do
-            ArrayList.new(
-              Arrays.asList(
-                AbstractMap::SimpleEntry.new(
-                  Array.new(2).to_java,
-                  Array.new(2).to_java
-                )
-              )
-            )
-          end
-
           it "should return UPDATE_ROWS" do
             actual_type = nil
             subject.callback = Proc.new do |row_event|
@@ -111,17 +100,6 @@ describe Ecco::RowEventListener do
 
         context "EXT_UPDATE_ROWS" do
           let(:row_event_type) { EventType::EXT_UPDATE_ROWS }
-          let(:rows) do
-            ArrayList.new(
-              Arrays.asList(
-                AbstractMap::SimpleEntry.new(
-                  Array.new(2).to_java,
-                  Array.new(2).to_java
-                )
-              )
-            )
-          end
-
           it "should return UPDATE_ROWS" do
             actual_type = nil
             subject.callback = Proc.new do |row_event|

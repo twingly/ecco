@@ -3,17 +3,39 @@ java_import java.util.Arrays
 
 shared_context "event" do
   let(:table_id) { 1 }
+  let(:database) { "some_database" }
+  let(:table) { "some_table" }
+  let(:table_event_type) { EventType::TABLE_MAP }
+  let(:row_event_type) { EventType::EXT_WRITE_ROWS }
   let(:rows) do
+    update_event? ? rows_for_update_event : rows_for_write_and_delete_events
+  end
+
+  def update_event?
+    [
+      EventType::EXT_UPDATE_ROWS,
+      EventType::UPDATE_ROWS,
+    ].include?(row_event_type)
+  end
+
+  let(:rows_for_update_event) do
+    ArrayList.new(
+      Arrays.asList(
+        AbstractMap::SimpleEntry.new(
+          Array.new(2).to_java,
+          Array.new(2).to_java
+        )
+      )
+    )
+  end
+
+  let(:rows_for_write_and_delete_events) do
     Java::JavaUtil::LinkedList.new(
       Arrays.asList(
         Array.new(1).to_java { Array.new(2).to_java }
       )
     )
   end
-  let(:database) { "some_database" }
-  let(:table) { "some_table" }
-  let(:table_event_type) { EventType::TABLE_MAP }
-  let(:row_event_type) { EventType::EXT_WRITE_ROWS }
 
   let(:table_event) do
     event = double("Event")
