@@ -13,38 +13,29 @@ module Ecco
     end
 
     def self.convert_update_rows(java_rows)
-      before_update_row = java_rows.first.get_key.to_a
-      after_update_row  = java_rows.first.get_value.to_a
+      java_rows.map do |java_row|
+        before_update_row = java_row.get_key.to_a
+        after_update_row  = java_row.get_value.to_a
 
-      Array.new(1) do
-        Tuple.new(
-          key: before_update_row,
-          value: after_update_row
+        UpdateRowsEventUpdatedRow.new(
+          before: before_update_row,
+          after:  after_update_row
         )
       end
     end
   end
 
-  class Tuple
-    KEY   = 0
-    VALUE = 1
+  class UpdateRowsEventUpdatedRow
+    attr_reader :before
+    attr_reader :after
 
-    attr_reader :tuple
-
-    def initialize(key:, value:)
-      @tuple = [key, value]
+    def initialize(before:, after:)
+      @before = before
+      @after  = after
     end
 
-    def key
-      @tuple[KEY]
-    end
-
-    def value
-      @tuple[VALUE]
-    end
-
-    def inspect
-      @tuple.to_s
-    end
+    # Make sure we don't break existing code
+    alias_method :key, :before
+    alias_method :value, :after
   end
 end
