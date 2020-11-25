@@ -1,5 +1,7 @@
 java_import com.github.shyiko.mysql.binlog.event.EventType
 java_import java.util.Arrays
+java_import java.util.ArrayList
+java_import java.util.AbstractMap
 
 shared_context "event" do
   let(:table_id) { 1 }

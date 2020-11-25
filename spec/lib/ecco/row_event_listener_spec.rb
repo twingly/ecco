@@ -1,6 +1,3 @@
-java_import java.util.ArrayList
-java_import java.util.AbstractMap
-
 describe Ecco::RowEventListener do
   describe "#on_event" do
     include_context "client"
