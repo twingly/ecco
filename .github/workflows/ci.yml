@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    env:
+      JRUBY_OPTS: '-J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-Xss2m -Xcompile.invokedynamic=false'
+
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        include:
+        - { mysql: 5-6 }
+        - { mysql: 5-7 }
+        - { mysql: 8-0 }
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Start MySQL container
+      run: docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-${{ matrix.mysql }}.yml up -d
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: jruby-9.2.13.0
+        bundler: 1
+        bundler-cache: true
+
+    - name: Run tests
+      run: bin/all_specs

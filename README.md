@@ -1,6 +1,6 @@
 # Ecco
 
-[![Build Status](https://travis-ci.org/twingly/ecco.svg?branch=master)](https://travis-ci.org/twingly/ecco)
+[![GitHub Build Status](https://github.com/twingly/ecco/workflows/CI/badge.svg?branch=master)](https://github.com/twingly/ecco/actions)
 
 MySQL (5.6 and 5.7) replication binlog parser using [mysql-binlog-connector-java].
 
