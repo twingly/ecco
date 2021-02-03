@@ -2,7 +2,7 @@
 
 [![GitHub Build Status](https://github.com/twingly/ecco/workflows/CI/badge.svg?branch=master)](https://github.com/twingly/ecco/actions)
 
-MySQL (5.6 and 5.7) replication binlog parser using [mysql-binlog-connector-java].
+MySQL (5.7 and 8.0) replication binlog parser using [mysql-binlog-connector-java].
 
 ## Installation
 
@@ -96,9 +96,6 @@ Ecco includes multiple Docker Compose definitions that can be used for this, one
 Start the desired version before running the tests:
 
 ```shell
-# MySQL 5.6
-docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-5-6.yml up
-
 # MySQL 5.7
 docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-5-7.yml up
 
