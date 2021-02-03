@@ -2,7 +2,7 @@
 
 [![GitHub Build Status](https://github.com/twingly/ecco/workflows/CI/badge.svg?branch=master)](https://github.com/twingly/ecco/actions)
 
-MySQL (5.7 and 8.0) replication binlog parser using [mysql-binlog-connector-java].
+MySQL (5.7 and 8.0) replication binlog parser using [mysql-binlog-connector-java](https://github.com/osheroff/mysql-binlog-connector-java).
 
 ## Installation
 
