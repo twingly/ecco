@@ -28,7 +28,6 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: jruby-9.2.17.0
-        bundler: 1
         bundler-cache: true
 
     - name: Run tests
