@@ -8,6 +8,7 @@ jobs:
   build:
     env:
       JRUBY_OPTS: '-J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-Xss2m -Xcompile.invokedynamic=false'
+      JAVA_OPTS: '-Djava.security.properties=docker/ecco-java.security' # Enable TLS 1.1, required by MySQL 5.7
 
     runs-on: ubuntu-18.04
 
