@@ -8,15 +8,17 @@ jobs:
   build:
     env:
       JRUBY_OPTS: '-J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-Xss2m -Xcompile.invokedynamic=false'
-      JAVA_OPTS: '-Djava.security.properties=docker/ecco-java.security' # Enable TLS 1.1, required by MySQL 5.7
+      JAVA_OPTS: ${{ matrix.java_opts }}
 
     runs-on: ubuntu-18.04
 
     strategy:
       matrix:
         include:
-        - { mysql: 5-7 }
-        - { mysql: 8-0 }
+        - mysql: 5-7
+          java_opts: '-Djava.security.properties=docker/ecco-java.security' # Enable TLS 1.1, required by MySQL 5.7
+        - mysql: 8-0
+          java_opts: ''
 
     steps:
     - name: Checkout code
