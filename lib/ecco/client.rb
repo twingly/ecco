@@ -3,6 +3,7 @@ require "ecco/row_event_listener"
 require "ecco/save_event_listener"
 require "ecco/lifecycle_failure_listener"
 require "ecco/error"
+require "forwardable"
 
 module Ecco
   class Client
