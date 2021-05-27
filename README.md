@@ -65,7 +65,7 @@ client.start
 
 To download a new version of [mysql-binlog-connector-java]
 
-    rake maven:dependencies
+    bundle exec rake maven:dependencies
 
 Note: You need Maven to download
 
