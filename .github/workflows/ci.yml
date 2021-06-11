@@ -30,7 +30,7 @@ jobs:
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: jruby-9.2.17.0
+        ruby-version: jruby-9.2.18.0
         bundler-cache: true
 
     - name: Run tests
