@@ -10,7 +10,7 @@ jobs:
       JRUBY_OPTS: '-J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-Xss2m -Xcompile.invokedynamic=false'
       JAVA_OPTS: ${{ matrix.java_opts }}
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Start MySQL container
       run: docker-compose -f docker-compose-mysql-base.yml -f docker-compose-mysql-${{ matrix.mysql }}.yml up -d
@@ -30,7 +30,7 @@ jobs:
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: jruby-9.3.4.0
+        ruby-version: jruby-9.3.7.0
         bundler-cache: true
 
     - name: Run tests
