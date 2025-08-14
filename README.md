@@ -1,3 +1,9 @@
+# Repository archived ☠️
+
+This project is no longer used by Twingly, and has therefore been archived.
+
+---
+
 # Ecco
 
 [![GitHub Build Status](https://github.com/twingly/ecco/workflows/CI/badge.svg?branch=master)](https://github.com/twingly/ecco/actions)
